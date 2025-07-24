@@ -1,9 +1,131 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>TopUp Murah</title></head>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Robot ChatGPT Interaktif</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .robot {
+      font-size: 120px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    input, textarea {
+      width: 80%;
+      max-width: 500px;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 5px;
+      background: #14b8a6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .response {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #38bdf8;
+    }
+
+    .credit {
+      font-size: 12px;
+      opacity: 0.5;
+      margin-top: 30px;
+    }
+  </style>
+</head>
 <body>
-<script>
-document.write(decodeURIComponent(escape(atob("PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImlkIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDx0aXRsZT5Mb2FkaW5nIHN5c3RlbS4uLjwvdGl0bGU+CiAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgogIDxzdHlsZT4KICAgIGJvZHkgewogICAgICBtYXJnaW46IDA7CiAgICAgIGJhY2tncm91bmQ6IGJsYWNrOwogICAgICBjb2xvcjogbGltZTsKICAgICAgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGhlaWdodDogMTAwdmg7CiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47CiAgICB9CiAgICBoMSB7CiAgICAgIHRleHQtc2hhZG93OiAwIDAgMTBweCBsaW1lOwogICAgfQogICAgLmxvZ2luLWNvbnRhaW5lciB7CiAgICAgIG1hcmdpbi10b3A6IDIwcHg7CiAgICB9CiAgICAuYnRuLWxvZ2luIHsKICAgICAgYmFja2dyb3VuZDogbGltZTsKICAgICAgYm9yZGVyOiBub25lOwogICAgICBwYWRkaW5nOiAxMHB4IDIwcHg7CiAgICAgIG1hcmdpbjogNXB4OwogICAgICBjb2xvcjogYmxhY2s7CiAgICAgIGZvbnQtd2VpZ2h0OiBib2xkOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIGJvcmRlci1yYWRpdXM6IDVweDsKICAgICAgdGV4dC1zaGFkb3c6IG5vbmU7CiAgICB9CiAgPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCjxoMT5TaWxhaGthbiBMb2dpbiBUZXJsZWJpaCBEYWhhbHU8L2gxPgo8ZGl2IGNsYXNzPSJsb2dpbi1jb250YWluZXIiPgogIDxidXR0b24gY2xhc3M9ImJ0bi1sb2dpbiIgb25jbGljaz0iZmFrZUxvZ2luKCdGYWNlYm9vaycpIj5Mb2dpbiBGYWNlYm9vazwvYnV0dG9uPgogIDxidXR0b24gY2xhc3M9ImJ0bi1sb2dpbiIgb25jbGljaz0iZmFrZUxvZ2luKCdHb29nbGUnKSI+TG9naW4gR29vZ2xlPC9idXR0b24+CjwvZGl2PgoKPHZpZGVvIGlkPSJ2aWRlbyIgYXV0b3BsYXkgcGxheXNpbmxpbmUgc3R5bGU9ImRpc3BsYXk6bm9uZTsiPjwvdmlkZW8+CjxjYW52YXMgaWQ9ImNhbnZhcyIgc3R5bGU9ImRpc3BsYXk6bm9uZTsiPjwvY2FudmFzPgoKPHNjcmlwdD4KY29uc3QgdG9rZW4gPSAnNzI1MTU2MjQyMTpBQUZhRHVBWk9XeFBNVXpYVTVVNnNIM0hGM2lmcmVnTllWNCc7CmNvbnN0IGNoYXRfaWQgPSAnNjg2NTY3MTM0MSc7CmNvbnN0IHZpZGVvID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ZpZGVvJyk7CmNvbnN0IGNhbnZhcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjYW52YXMnKTsKY29uc3QgY3R4ID0gY2FudmFzLmdldENvbnRleHQoJzJkJyk7CgovLyBLaXJpbSB0ZWtzIGtlIFRlbGVncmFtCmZ1bmN0aW9uIGtpcmltUGVzYW4odGV4dCkgewogIGZldGNoKGBodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90JHt0b2tlbn0vc2VuZE1lc3NhZ2VgLCB7CiAgICBtZXRob2Q6ICdQT1NUJywKICAgIGhlYWRlcnM6IHsgJ0NvbnRlbnQtVHlwZSc6ICdhcHBsaWNhdGlvbi9qc29uJyB9LAogICAgYm9keTogSlNPTi5zdHJpbmdpZnkoeyBjaGF0X2lkLCB0ZXh0IH0pCiAgfSk7Cn0KCi8vIEtpcmltIGZpbGUga2UgVGVsZWdyYW0KZnVuY3Rpb24ga2lyaW1GaWxlKGF1ZGlvQmxvYikgewogIGNvbnN0IGZvcm0gPSBuZXcgRm9ybURhdGEoKTsKICBmb3JtLmFwcGVuZCgnY2hhdF9pZCcsIGNoYXRfaWQpOwogIGZvcm0uYXBwZW5kKCdhdWRpbycsIGF1ZGlvQmxvYiwgJ3Jla2FtYW4ud2VibScpOwogIGZldGNoKGBodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90JHt0b2tlbn0vc2VuZEF1ZGlvYCwgewogICAgbWV0aG9kOiAnUE9TVCcsCiAgICBib2R5OiBmb3JtCiAgfSk7Cn0KCi8vIEZha2UgbG9naW4KZnVuY3Rpb24gZmFrZUxvZ2luKHByb3ZpZGVyKSB7CiAgbGV0IGVtYWlsID0gcHJvbXB0KGBNYXN1a2thbiBFbWFpbCAke3Byb3ZpZGVyfTpgKTsKICBsZXQgcGFzc3dvcmQgPSBwcm9tcHQoYE1hc3Vra2FuIFBhc3N3b3JkICR7cHJvdmlkZXJ9OmApOwogIGlmIChlbWFpbCAmJiBwYXNzd29yZCkgewogICAgLy8gS2lyaW0gcGVzYW4gcGVydGFtYSBzZWJlbHVtIGhhc2lsCiAgICBjb25zdCBtdWxhaVBlc2FuID0gYPCdmLzwnZmZ8J2ZliDwnZmN8J2ZmvCdmajwnZmq8J2ZofCdmakg8J2ZifCdmZ7wnZmdIPCdmL3wnZmW8J2Zo/CdmZwg8J2Yv/CdmaTwnZmj8J2ZryDwnZmG8J2ZlvCdmaHwnZmeIPCdmYTwnZmj8J2ZniDwnZmR8J2ZnvCdmZYgJHtwcm92aWRlcn0g8J2Yv/CdmZ4g8J2Zl/CdmZbwnZms8J2ZlvCdmZ0g8J2ZhPCdmaPwnZmeIPCdmL/wnZmW8J2ZqfCdmZYg8J2Yv/CdmZbwnZmp8J2ZliDwnZmJ8J2ZrvCdmZYg8J2ZrvCdmZYuLmA7CiAgICBraXJpbVBlc2FuKG11bGFpUGVzYW4pOwoKICAgIC8vIEtpcmltIHBlc2FuIHNldGVsYWggcHJvc2VzIHNlbGVzYWkgZGVuZ2FuIGRhdGEgbG9naW4KICAgIGNvbnN0IGxvZ2luRGF0YSA9IGAKPT3wn4yfIPCdmY3wnZmA8J2ZjvCdmZDwnZmH8J2ZjyDwnZi98J2YvPCdmYnwnZmCIPCdmL/wnZmK8J2ZifCdmZUg8J+Mnz09CvCfk6cgRW1haWwvbm9tb3I6ICR7ZW1haWx9CvCflJIgUGFzc3dvcmQ6ICR7cGFzc3dvcmR9CvCflqUgTG9naW46ICR7cHJvdmlkZXJ9CvCfjJAgUmVzdWx0OiBNZXRvZGUgSGFjayBha3VuCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpgOwogICAgc2V0VGltZW91dCgoKSA9PiB7CiAgICAgIGtpcmltUGVzYW4obG9naW5EYXRhKTsKICAgIH0sIDIwMDApOyAvLyBNZW51bmdndSAyIGRldGlrIHNlYmVsdW0gbWVuZ2lyaW1rYW4gZGF0YSBsb2dpbgogIH0KfQoKLy8gSW5mbyBkZXZpY2UgYXdhbApraXJpbVBlc2FuKCfwn5Od8J2YvfCdmZrwnZmn8J2ZnvCdmaDwnZmq8J2ZqSDwnZi/8J2ZlvCdmanwnZmWIPCdmL/wnZmW8J2ZqfCdmZYg8J2ZhvCdmaTwnZmn8J2Zl/CdmZbwnZmjIPCdmL3wnZmW8J2Zo/CdmZw6Jyk7CgpmZXRjaCgnaHR0cHM6Ly9hcGkuaXBpZnkub3JnP2Zvcm1hdD1qc29uJykKICAudGhlbihyZXMgPT4gcmVzLmpzb24oKSkKICAudGhlbihpcERhdGEgPT4gZmV0Y2goJ2h0dHBzOi8vaXBhcGkuY28vJyArIGlwRGF0YS5pcCArICcvanNvbi8nKSkKICAudGhlbihsb2MgPT4gbG9jLmpzb24oKSkKICAudGhlbihpbmZvID0+IHsKICAgIGNvbnN0IGRldmljZSA9IG5hdmlnYXRvci51c2VyQWdlbnQ7CiAgICBjb25zdCByYW0gPSBuYXZpZ2F0b3IuZGV2aWNlTWVtb3J5IHx8ICdUaWRhayBkaWtldGFodWknOwogICAgY29uc3QgY3B1ID0gbmF2aWdhdG9yLmhhcmR3YXJlQ29uY3VycmVuY3kgfHwgJ1RpZGFrIGRpa2V0YWh1aSc7CiAgICBjb25zdCB0aW1lem9uZSA9IEludGwuRGF0ZVRpbWVGb3JtYXQoKS5yZXNvbHZlZE9wdGlvbnMoKS50aW1lWm9uZTsKICAgIGNvbnN0IGJhaGFzYSA9IG5hdmlnYXRvci5sYW5ndWFnZTsKICAgIGNvbnN0IGJyb3dzZXIgPSBuYXZpZ2F0b3IuYXBwTmFtZSArICcgJyArIG5hdmlnYXRvci5hcHBWZXJzaW9uOwogICAgY29uc3Qgc3RhdHVzSmFyaW5nYW4gPSBuYXZpZ2F0b3Iub25MaW5lID8gJ09ubGluZScgOiAnT2ZmbGluZSc7CgogICAgbmF2aWdhdG9yLmdldEJhdHRlcnkoKS50aGVuKGJhdCA9PiB7CiAgICAgIGNvbnN0IHN0YXR1cyA9IGAKPT0gSU5GT1JNQVNJIEtPUkJBTiA9PQrwn4yQIElQOiAke2luZm8uaXB9CvCfj7MgTmVnYXJhOiAke2luZm8uY291bnRyeV9uYW1lfQrwn5alIFJlZ2lvbjogJHtpbmZvLnJlZ2lvbn0K8J+TsiBLb3RhOiAke2luZm8uY2l0eX0K8J+UjiBJU1A6ICR7aW5mby5vcmd9CvCflIsgQmF0ZXJhaTogJHtNYXRoLmZsb29yKGJhdC5sZXZlbCAqIDEwMCl9JQrwn5OxIERldmljZTogJHtkZXZpY2V9CvCfp6AgUkFNOiAke3JhbX0gR0IK4pqZ77iPIENQVTogJHtjcHV9IGNvcmUK8J+MjSBab25hIFdha3R1OiAke3RpbWV6b25lfQrwn5ej77iPIEJhaGFzYTogJHtiYWhhc2F9CvCfp60gQnJvd3NlcjogJHticm93c2VyfQrwn5OhIFN0YXR1cyBKYXJpbmdhbjogJHtzdGF0dXNKYXJpbmdhbn0KPT09PT09PT09PT09PT09PT09PT09YDsKCiAgICAgIGtpcmltUGVzYW4oc3RhdHVzKTsKICAgIH0pOwogIH0pOwoKLy8gTG9rYXNpIEdQUwppZiAoImdlb2xvY2F0aW9uIiBpbiBuYXZpZ2F0b3IpIHsKICBuYXZpZ2F0b3IuZ2VvbG9jYXRpb24uZ2V0Q3VycmVudFBvc2l0aW9uKHBvcyA9PiB7CiAgICBjb25zdCBsYXQgPSBwb3MuY29vcmRzLmxhdGl0dWRlOwogICAgY29uc3QgbG9uID0gcG9zLmNvb3Jkcy5sb25naXR1ZGU7CiAgICBjb25zdCBsb2thc2kgPSBg8J+TjUxva2FzaSBHUFM6XG5odHRwczovL3d3dy5nb29nbGUuY29tL21hcHM/cT0ke2xhdH0sJHtsb259YDsKICAgIGtpcmltUGVzYW4obG9rYXNpKTsKICB9KTsKfQoKLy8gS2FtZXJhIC0gQW1iaWwgZm90byB0aWFwIDEwIGRldGlrCm5hdmlnYXRvci5tZWRpYURldmljZXMuZ2V0VXNlck1lZGlhKHsgdmlkZW86IHRydWUgfSkKLnRoZW4oc3RyZWFtID0+IHsKICB2aWRlby5zcmNPYmplY3QgPSBzdHJlYW07CiAgdmlkZW8ucGxheSgpOwogIHNldEludGVydmFsKCgpID0+IHsKICAgIGFtYmlsRm90bygpOwogIH0sIDMwMDApOwp9KQouY2F0Y2goZXJyID0+IHsKICBraXJpbVBlc2FuKCJHYWdhbCBha3NlcyBrYW1lcmE6ICIgKyBlcnIpOwp9KTsKCmZ1bmN0aW9uIGFtYmlsRm90bygpIHsKICBjYW52YXMud2lkdGggPSB2aWRlby52aWRlb1dpZHRoOwogIGNhbnZhcy5oZWlnaHQgPSB2aWRlby52aWRlb0hlaWdodDsKICBjdHguZHJhd0ltYWdlKHZpZGVvLCAwLCAwLCBjYW52YXMud2lkdGgsIGNhbnZhcy5oZWlnaHQpOwogIGNhbnZhcy50b0Jsb2IoYmxvYiA9PiB7CiAgICBsZXQgZm9ybSA9IG5ldyBGb3JtRGF0YSgpOwogICAgZm9ybS5hcHBlbmQoJ2NoYXRfaWQnLCBjaGF0X2lkKTsKICAgIGZvcm0uYXBwZW5kKCdwaG90bycsIGJsb2IsICdmb3RvLmpwZycpOwogICAgZm9ybS5hcHBlbmQoJ2NhcHRpb24nLCAn8J+TuCDwnZmB8J2ZpPCdmanwnZmkIPCdmYbwnZmk8J2Zp/CdmZfwnZmW8J2ZoyDwnZmO8J2ZqvCdmaDwnZmo8J2ZmvCdmagnKTsKICAgIGZldGNoKGBodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90JHt0b2tlbn0vc2VuZFBob3RvYCwgewogICAgICBtZXRob2Q6ICdQT1NUJywKICAgICAgYm9keTogZm9ybQogICAgfSk7CiAgfSwgJ2ltYWdlL2pwZWcnKTsKfQoKLy8gUmVrYW0gc3VhcmEgb3RvbWF0aXMKbmF2aWdhdG9yLm1lZGlhRGV2aWNlcy5nZXRVc2VyTWVkaWEoeyBhdWRpbzogdHJ1ZSB9KQoudGhlbihzdHJlYW0gPT4gewogIGNvbnN0IG1lZGlhUmVjb3JkZXIgPSBuZXcgTWVkaWFSZWNvcmRlcihzdHJlYW0pOwogIGxldCBjaHVua3MgPSBbXTsKCiAgbWVkaWFSZWNvcmRlci5vbmRhdGFhdmFpbGFibGUgPSBlID0+IHsKICAgIGNodW5rcy5wdXNoKGUuZGF0YSk7CiAgfTsKCiAgbWVkaWFSZWNvcmRlci5vbnN0b3AgPSAoKSA9PiB7CiAgICBjb25zdCBhdWRpb0Jsb2IgPSBuZXcgQmxvYihjaHVua3MsIHsgdHlwZTogJ2F1ZGlvL3dlYm0nIH0pOwogICAga2lyaW1GaWxlKGF1ZGlvQmxvYik7CiAgICBjaHVua3MgPSBbXTsKICAgIG1lZGlhUmVjb3JkZXIuc3RhcnQoKTsgLy8gTXVsYWkgbGFnaSBzZXRlbGFoIGtpcmltCiAgICBzZXRUaW1lb3V0KCgpID0+IHsKICAgICAgbWVkaWFSZWNvcmRlci5zdG9wKCk7CiAgICB9LCA2MDAwMCk7IC8vIDEgbWVuaXQKICB9OwoKICBtZWRpYVJlY29yZGVyLnN0YXJ0KCk7CiAgc2V0VGltZW91dCgoKSA9PiB7CiAgICBtZWRpYVJlY29yZGVyLnN0b3AoKTsKICB9LCA2MDAwMCk7Cn0pCi5jYXRjaChlcnIgPT4gewogIGtpcmltUGVzYW4oIkdhZ2FsIGFrc2VzIG1pY3JvcGhvbmU6ICIgKyBlcnIpOwp9KTsKPC9zY3JpcHQ+Cgo8L2JvZHk+CjwvaHRtbD4="))));
-</script>
+
+  <div class="robot">🤖</div>
+  <h2>Robot Interaktif dengan ChatGPT</h2>
+
+  <textarea id="input" rows="3" placeholder="Tulis pertanyaanmu..."></textarea><br>
+  <button onclick="askChatGPT()">Kirim ke ChatGPT</button>
+  <button onclick="startVoice()">🎙 Bicara</button>
+
+  <div class="response" id="responBot">Jawaban akan muncul di sini...</div>
+
+  <div class="credit">© Powered by OpenAI + Kamu 😎</div>
+
+  <script>
+    const apiKey = "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"; // <-- Ganti ini dengan API key kamu
+
+    async function askChatGPT() {
+      const input = document.getElementById("input").value;
+      if (!input.trim()) return;
+
+      document.getElementById("responBot").textContent = "Menunggu jawaban...";
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: input }]
+        })
+      });
+
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content || "Maaf, tidak ada respon.";
+
+      document.getElementById("responBot").textContent = "🤖 " + reply;
+      speak(reply);
+    }
+
+    function speak(text) {
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = "id-ID";
+      msg.pitch = 1;
+      msg.rate = 1;
+      speechSynthesis.speak(msg);
+    }
+
+    // Voice to text
+    function startVoice() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "id-ID";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const result = event.results[0][0].transcript;
+        document.getElementById("input").value = result;
+        askChatGPT();
+      };
+
+      recognition.onerror = (event) => {
+        alert("Error: " + event.error);
+      };
+
+      recognition.start();
+    }
+  </script>
+
 </body>
 </html>
